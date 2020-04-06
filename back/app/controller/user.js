@@ -48,6 +48,39 @@ class UserController extends BaseController {
     const user = await this.ctx.model.User.findOne({email})
     return user
   }
+  async login(){
+    const {ctx,app} = this
+    const {email,password} = ctx.request.body
+    // 数据库查询
+    let user = await ctx.model.User.findOne({
+      email,
+      password:md5(password)
+    })
+    if(user){
+      // 如果查到数据库里的数据了，则生成token
+      const {nickname} = user
+      // 将来还可以从token里解析出nickname，email，id
+      const token = app.jwt.sign({
+        nickname,
+        email,
+        di:user._id
+      },app.config.jwt.secret,{
+        // 时限
+        expiresIn:'1h'
+      })
+      this.success({token,email})
+    }else{
+      this.error('用户名或密码错误')
+    }
+   }
+   // @测试
+  async detail(){
+    // 只有token怎么获取详情
+    const {ctx} = this
+    const user = await this.checkEmail(ctx.state.email)
+    this.success(user)
+  }
+
   async create(){
     const {ctx} = this
     let { email, password,emailcode, captcha, nickname} = ctx.request.body

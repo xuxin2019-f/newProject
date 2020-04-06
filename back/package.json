@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "egg": "^2.15.1",
+    "egg-jwt": "^3.1.7",
     "egg-mongoose": "^3.2.0",
     "egg-scripts": "^2.11.0",
+    "marked": "^0.8.2",
     "md5": "^2.2.1",
     "nodemailer": "^6.4.6",
     "svg-captcha": "^1.4.0"
