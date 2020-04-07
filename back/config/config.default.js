@@ -23,7 +23,7 @@ module.exports = appInfo => {
     // myAppName: 'egg',
   };
 
-  return {
+   return {
     ...config,
     ...userConfig,
     security:{
@@ -38,7 +38,7 @@ module.exports = appInfo => {
       }
     },
     jwt:{
-      secret:'12xuxinhaha'
+      secret:'5ssdnwo'
     }
   };
 };

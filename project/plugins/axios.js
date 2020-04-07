@@ -15,7 +15,7 @@ export default({store, redirect})=>{
   service.interceptors.request.use(
     config=>{
       // 请求加token
-      const token = window.localStorage.getItem(TOKEN_KEY)
+      const token = window.localStorage.getItem('KKB_USER_TOKEN')
       // 这里还可以设置url白名单
       if(token){
         config.headers.common['Authorization'] = 'Bearer '+token
@@ -32,10 +32,10 @@ service.interceptors.response.use(
     let {data, config} = response
     console.log('响应拦截',response)
     // 写token
-    // 也可以卸载login的逻辑里写
+    // 也可以在login的逻辑里写
     if(data.code===0){
       if(config.url ==='/api/user/login'){
-        localStorage.setItem(TOKEN_KEY, data.data.token)
+        localStorage.setItem('KKB_USER_TOKEN', data.data.token)
       }
     }else if(data.code===-666){
       // 规定code是-666的 意味着token过期
@@ -45,7 +45,7 @@ service.interceptors.response.use(
         showCancelButton:false,
         type:'warning'
       }).then(()=>{
-        localStorage.removeItem(TOKEN_KEY)
+        localStorage.removeItem('KKB_USER_TOKEN')
         redirect({ path:'/login'})
       })
 

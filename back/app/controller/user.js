@@ -63,7 +63,7 @@ class UserController extends BaseController {
       const token = app.jwt.sign({
         nickname,
         email,
-        di:user._id
+        id:user._id
       },app.config.jwt.secret,{
         // 时限
         expiresIn:'1h'
@@ -111,12 +111,12 @@ class UserController extends BaseController {
     demoinfo(){
         const {ctx} = this;
         // this.success('测试数据12')
-        this.error('错误信息')
+        // this.error('错误信息')
         // this.message('成功信息')
-        // ctx.body = {
-        //     code:0,
-        //     data:'测试数据'
-        // }
+        ctx.body = {
+            code:0,
+            data:'测试数据'
+        }
     }
     
 }

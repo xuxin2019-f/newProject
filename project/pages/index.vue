@@ -9,11 +9,10 @@
 
 
 export default {
-  layout:'default',
   async mounted(){
-    // 因为已经在plugins下的user.js中设置过baseURL为/api，所以这里不用再写api前缀
-    let ret =  await this.$http.get('/demoinfo')
-    console.log(ret.data)
+   let ret = await this.$http.get('/user/detail')
+   console.log(ret.data)
+
   },
   components: {
   

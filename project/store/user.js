@@ -1,4 +1,6 @@
 import { http } from "../plugins/axios"
+
+
 const state = ()=>({
   token:'',
   id:'',
@@ -6,6 +8,8 @@ const state = ()=>({
   nickname:"",
   avatar:''
 })
+
+
 const mutations = {
   SET_TOKEN(state, token){
     state.token = token
@@ -17,14 +21,16 @@ const mutations = {
     state.avatar = user.avatar
   }
 }
+
 const actions = {
-  login: async({state,commit},data)=>{
-      let ret  = await http.post('/user/login',data)
-    //   登录会返回token
-      commit('SET_TOKEN',ret.data.token)
-      return ret
+  login: async({state,commit}, data)=>{
+    let ret = await http.post('/user/login', data)
+    // 登录返回token
+    commit('SET_TOKEN', ret.data.token)
+    console.log('actin data',data)
+    return ret
   },
-  //  获取用户详情
+  // 每次渲染页面都重新给vuex赋值
   detail: async({state,commit}, data)=>{
     let ret = await http.get('/user/detail')
     if(ret.code===0){
@@ -37,8 +43,8 @@ const actions = {
 }
 
 export default {
-    namespace:true,
-    state,
-    mutations,
-    actions
+  namespace:true,
+  state,
+  mutations,
+  actions
 }

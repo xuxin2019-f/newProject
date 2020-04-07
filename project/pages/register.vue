@@ -189,7 +189,7 @@ export default {
           }
           let ret = await this.$http.post('/user/register', obj)
           console.log(ret)
-          if(ret.data.code===0){
+          if(ret.code===0){
 // 注册成功信息提醒
 
           // 跳转登录页
@@ -212,7 +212,7 @@ export default {
     },
     async sendCode(){
       let ret = await this.$http.get('/user/sendcode?email='+this.form.email)
-      if(ret.data.code===0){
+      if(ret.code===0){
         this.$notify({
           title:'发送成功',
           type:'success'

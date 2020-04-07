@@ -15,24 +15,24 @@
         </el-menu-item>
 
        <!-- 这里也是，通过计算属性拿到vuex中的数据来选择是否渲染dom -->
-        <el-menu-item v-if="userinfo.token" index="3" class="pull-right">
+        <el-menu-item v-if="userinfo.id" index="3" class="pull-right">
           <nuxt-link to="/user">退出</nuxt-link>
         </el-menu-item>
-        <el-menu-item v-if="userinfo.token" index="4" class="pull-right">
+        <el-menu-item v-if="userinfo.id" index="4" class="pull-right">
           <nuxt-link to="/user">{{userinfo.nickname}}</nuxt-link>
         </el-menu-item>
 
-        <el-menu-item v-if="userinfo.token" index="5" class="pull-right">
+        <el-menu-item v-if="userinfo.id" index="5" class="pull-right">
           <nuxt-link to="/editor/new">
             <el-button type='primary'>写文章</el-button>
           </nuxt-link>
         </el-menu-item>
 
-        <el-menu-item v-if="!userinfo.token" index="2" class="pull-right">
+        <el-menu-item v-if="!userinfo.id" index="2" class="pull-right">
           <nuxt-link to="/register">注册</nuxt-link>
         </el-menu-item>
 
-          <el-menu-item v-if="!userinfo.token" index="3" class="pull-right">
+          <el-menu-item v-if="!userinfo.id" index="3" class="pull-right">
           <nuxt-link to="/login">登录</nuxt-link>
         </el-menu-item>
         </el-menu>
@@ -54,6 +54,7 @@
 export default {
   mounted(){
     this.getUserInfo()
+    console.log('信息'+this.userinfo)
   },
   computed:{
     userinfo(){

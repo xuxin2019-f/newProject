@@ -1,9 +1,13 @@
+
+
 // 中间件
 
+
 module.exports = ({app})=>{
-    return async function verify({ctx,next}) {
-        const token = ctx.request.header.authorization.replace('Bearer',"")
-         try{
+  // console.log('middware')
+  return async function verify(ctx, next){
+    const token = ctx.request.header.authorization.replace('Bearer ',"")
+    try{
       // 获取token
       let ret = await app.jwt.verify(token, app.config.jwt.secret)
       console.log('中间件获取token信息',ret)
@@ -24,5 +28,6 @@ module.exports = ({app})=>{
       }
       console.log(err)
     }
-    }
+
+  }
 }

@@ -67,7 +67,7 @@ export default {
     handleLogin(){
       // 走vuex 走axios拦截器
       this.$refs.form.validate(async valid=>{
-        console.log(valid)
+        console.log('valid'+valid)
         if(valid){
 
           // 设置loading
@@ -81,6 +81,8 @@ export default {
               title: '登录成功',
               type:'success'
             })
+            // 生成token
+            localStorage.setItem('KKB_USER_TOKEN', ret.data.token)
             setTimeout(()=>{
               this.$router.push({path:'/'})
             },1500)
