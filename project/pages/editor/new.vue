@@ -50,13 +50,14 @@ export default {
     },150),
     async submit(){
       let ret = await this.$http.post('/article/create', {content:this.content})
-      if(res.code==0){
+      if(ret.code==0){
         this.$notify({
           title:'创建成功',
           type:'success',
           message:`文章《${ret.data.title}》创建成功`
         })
         setTimeout(()=>{
+          // 跳转到文章详情页
           this.$router.push({ path:'/article/'+ret.data.id})
         })
       }

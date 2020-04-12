@@ -3,6 +3,19 @@
 const BaseController = require('./base');
 const marked = require('marked')
 class ArticleController extends BaseController {
+  async index(){
+    const {ctx} = this
+    let articles = await ctx.model.Article.find().populate('author')
+    this.success(articles)
+
+  }
+  async detail(){
+    // 这里实现查询到详细的某一篇文章，还要实现每次访问这个方法，都加一次访问量view
+    const {ctx} = this
+    let {id} = ctx.params
+    let article = await ctx.model.Article.findOneAndUpdate({_id:id},{$inc: {'views':1}}).populate('author')
+    this.success(article)
+  }
    async create(){
       const {ctx} = this
       const {userid} = ctx.state

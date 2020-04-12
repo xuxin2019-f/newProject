@@ -1,74 +1,79 @@
 <template>
-
-    <el-container>
-      <!-- <div>
+  <el-container>
+    <!-- <div>
         {{userinfo}}
-      </div> -->
-      <el-header>
-        <el-menu class="el-menu-demo" mode="horizontal">
-          <el-menu-item index="0">
-            <img class="logo" src="/logo.png" alt="">
-          </el-menu-item>
+    </div>-->
+    <el-header>
+      <el-menu class="el-menu-demo" mode="horizontal">
+        <el-menu-item index="0">
+          <img class="logo" src="/logo.png" alt />
+        </el-menu-item>
 
         <el-menu-item index="1">
           <nuxt-link to="/">首页</nuxt-link>
         </el-menu-item>
 
-       <!-- 这里也是，通过计算属性拿到vuex中的数据来选择是否渲染dom -->
-        <el-menu-item v-if="userinfo.id" index="3" class="pull-right">
-          <nuxt-link to="/user">退出</nuxt-link>
-        </el-menu-item>
-        <el-menu-item v-if="userinfo.id" index="4" class="pull-right">
-          <nuxt-link to="/user">{{userinfo.nickname}}</nuxt-link>
+        <!-- 这里也是，通过计算属性拿到vuex中的数据来选择是否渲染dom -->
+        <el-menu-item v-if="islogin" index="3" class="pull-right" @click="logout">
+          <span>退出</span>
         </el-menu-item>
 
-        <el-menu-item v-if="userinfo.id" index="5" class="pull-right">
+        <el-menu-item v-if="islogin" index="6" class="pull-right">
+          <UserDisplay :user="userinfo"></UserDisplay>
+        </el-menu-item>
+        <el-menu-item v-if="islogin" index="5" class="pull-right">
           <nuxt-link to="/editor/new">
-            <el-button type='primary'>写文章</el-button>
+            <el-button type="primary">写文章</el-button>
           </nuxt-link>
         </el-menu-item>
 
-        <el-menu-item v-if="!userinfo.id" index="2" class="pull-right">
+        <el-menu-item v-if="!islogin" index="2" class="pull-right">
           <nuxt-link to="/register">注册</nuxt-link>
         </el-menu-item>
 
-          <el-menu-item v-if="!userinfo.id" index="3" class="pull-right">
+        <el-menu-item v-if="!islogin" index="3" class="pull-right">
           <nuxt-link to="/login">登录</nuxt-link>
         </el-menu-item>
-        </el-menu>
-      </el-header>
+      </el-menu>
+    </el-header>
 
-      <el-main>
-
-        <nuxt />
-      </el-main>
-      <el-footer>
-        底部信息
-      </el-footer>
-    </el-container>
-
-    
-
+    <el-main>
+      <nuxt />
+    </el-main>
+    <el-footer>底部信息</el-footer>
+  </el-container>
 </template>
 <script>
+import UserDisplay from '~/components/UserDisplay.vue'
 export default {
-  mounted(){
+  components: { UserDisplay },
+  async mounted() {
     this.getUserInfo()
-    console.log('信息'+this.userinfo)
+    // console.log('信息' + this.userinfo)
+    console.log(this.$store.state.user)
   },
-  computed:{
-    userinfo(){
-      return this.$store.state.user
+  computed: {
+    // userinfo() {
+    //   return this.$store.state.user
+    // },
+    islogin() {
+      return this.$store.state.user.token
     }
   },
-  methods:{
-    getUserInfo(){
+  methods: {
+    async getUserInfo() {
       // 获取用户个人信息，如果有登录状态
       let token = localStorage.getItem('KKB_USER_TOKEN')
-      if(token){
-            // let ret = await this.$axios.get('/api/demoinfo')
+      if (token) {
+        // let ret = await this.$axios.get('/api/demoinfo')
         this.$store.dispatch('user/detail')
+        this.userinfo = this.$store.state.user
       }
+    },
+    logout() {
+      localStorage.removeItem('KKB_USER_TOKEN')
+      this.$store.commit('user/LOGOUT')
+      this.$router.push({ path: '/' })
     }
   }
 }
@@ -84,9 +89,10 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+  background: #eee;
 }
-.pull-right{
-  float:right !important;
+.el-divider--horizontal {
+  height: 2px;
 }
 *,
 *:before,
@@ -94,10 +100,34 @@ html {
   box-sizing: border-box;
   margin: 0;
 }
-.logo{
-  height:37px;
-}
-a{
+a {
   text-decoration: none;
+}
+.logo {
+  height: 70%;
+}
+.kkb-container {
+  width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 20px;
+}
+.pull-right {
+  float: right !important;
+}
+
+.k-container {
+  width: 1200px;
+  margin: 0 auto;
+}
+i.rotate180 {
+  transform: rotate(180deg);
+}
+
+.ml20 {
+  margin-left: 20px;
+}
+.el-icon-thumb {
+  letter-spacing: 5px;
 }
 </style>

@@ -1,21 +1,32 @@
+
+
+
+
 <template>
-  <div class="container">
-    <h1>首页</h1>
-    <nuxt-link to='/register'>注册</nuxt-link>
+  <div class="kkb-container">
+    <ArticleItem v-for="article in articles" :article="article" :key="article._id"></ArticleItem>
   </div>
 </template>
 
 <script>
-
-
+import Logo from '~/components/Logo.vue'
+import ArticleItem from '~/components/ArticleItem.vue'
 export default {
-  async mounted(){
-   let ret = await this.$http.get('/user/detail')
-   console.log(ret.data)
+  // async
 
+  async asyncData({ app, params, store }) {
+    // console.log(Object.keys(store))
+    // console.log(Object.keys(app))
+    let ret = await app.$axios.get('/api/article')
+    console.log(ret.data.data)
+    return {
+      articles: ret.data.data
+    }
+    // return {user:ret.data}
   },
   components: {
-  
+    Logo,
+    ArticleItem
   }
 }
 </script>
@@ -23,11 +34,8 @@ export default {
 <style>
 .container {
   margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  /* min-height: 100vh; */
+  /* text-align: center; */
 }
 
 .title {
