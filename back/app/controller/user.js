@@ -157,16 +157,42 @@ class UserController extends BaseController {
     const { ctx } = this
 
     // const users = await ctx.model.User.find({ following: ctx.params.id });
-
+    // 即查询当前用户的关注的那些人的用户信息
     const users = await ctx.model.User.findById(ctx.params.id).populate(
       'following'
     )
+    console.log('关注的人', users)
     this.success(users.following)
   }
   async followers() {
     const { ctx } = this
-    const users = await ctx.model.User.find({ following: ctx.params.id })
+    const users = await ctx.model.User.find({ follower: ctx.params.id })
+    console.log('粉丝', users)
     this.success(users)
+  }
+  async articles() {
+    const { ctx } = this
+    //console.log(ctx.params.id)
+    const title = []
+    // 我好愚蠢 拿用户id查文章能查到个p
+    // const article = await ctx.model.Article.find().then((data) => {
+    //   data.forEach((element) => {
+    //     console.log('id?', element._id)
+    //     if (element._id.toString() === ctx.params.id) {
+    //       title.push(element.title)
+    //     }
+    //   })
+    // })
+
+    //喜大普奔
+    const article = await ctx.model.Article.find({ author: ctx.params.id })
+    article.forEach((item) => {
+      title.push(item.title)
+    })
+
+    //console.log('标题', title)
+    //console.log('文章', article)
+    this.success(title)
   }
   async articleStatus() {
     const { ctx } = this

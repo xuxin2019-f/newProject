@@ -14,7 +14,11 @@
           <UserDisplay :user="user" />
         </div>
       </el-tab-pane>
-      <el-tab-pane :label="'文章'+articles.length" name="articles">文章 {{articles}}</el-tab-pane>
+      <el-tab-pane :label="'文章'+articles.length" name="articles">
+        <el-card class="box-card" v-for="item in articles" :key="item">
+          <div class="text item">{{item }}</div>
+        </el-card>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -61,7 +65,14 @@ export default {
         this.following = ret.data
       }
     },
-    loadArticle() {},
+    async loadArticle() {
+      // 文章
+      let ret = await this.$http.get('/user/' + this.userid + '/articles')
+      if (ret.code === 0) {
+        this.articles = ret.data
+        //console.log(ret)
+      }
+    },
     handleClick() {}
   }
 }

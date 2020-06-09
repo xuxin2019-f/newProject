@@ -31,6 +31,7 @@ module.exports = (app) => {
   )
   router.get('/user/:id/following', controller.user.following)
   router.get('/user/:id/followers', controller.user.followers)
+  router.get('/user/:id/articles', controller.user.articles)
 
   // 中间件
   router.get('/user/detail', jwt, controller.user.detail)

@@ -14,7 +14,12 @@
         </el-menu-item>
 
         <!-- 这里也是，通过计算属性拿到vuex中的数据来选择是否渲染dom -->
-        <el-menu-item v-if="islogin" index="3" class="pull-right" @click="logout">
+        <el-menu-item
+          v-if="islogin"
+          index="3"
+          class="pull-right"
+          @click="logout"
+        >
           <span>退出</span>
         </el-menu-item>
 
@@ -57,7 +62,7 @@ export default {
     //   return this.$store.state.user
     // },
     islogin() {
-      return this.$store.state.user.token
+      return this.$store.state.user.id
     }
   },
   methods: {

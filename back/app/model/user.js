@@ -12,7 +12,16 @@ module.exports = (app) => {
       avatar: { type: String, required: false, default: '/user.png' },
       // 关注的人，
       following: {
+        // 连接到这些关注的人的用户信息
         type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+      },
+      // 粉丝
+      follower: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+      },
+      // 自己的文章
+      article: {
+        type: [{ type: Schema.Types.ObjectId, ref: 'Article' }],
       },
       likeArticle: {
         type: [{ type: Schema.Types.ObjectId, ref: 'Article' }],

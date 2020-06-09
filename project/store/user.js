@@ -13,6 +13,7 @@ const mutations = {
     state.token = token
   },
   SET_USER(state, user) {
+    console.log('xx', user)
     state.id = user._id
     state.email = user.email
     state.nickname = user.nickname

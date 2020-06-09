@@ -1,26 +1,21 @@
 <template>
-  <div  class="login-container">
-
-    <el-form ref='form' :model="form" :rule="registerRule" class="login-form" >
+  <div class="login-container">
+    <el-form ref="form" :model="form" :rule="registerRule" class="login-form">
       <div class="title-container">
-        <img src="/logo.png" alt="">
+        <img src="/logo.png" alt="" />
       </div>
       <el-form-item prop="email">
         <span class="svg-container">
-          <i class="el-icon-mobile">
-          </i>
+          <i class="el-icon-mobile"> </i>
         </span>
         <el-input
-          ref = 'email'
-          v-model='form.email'
-          placeholder = '邮箱'
+          ref="email"
+          v-model="form.email"
+          placeholder="邮箱"
           name="email"
-          >
-          
+        >
         </el-input>
       </el-form-item>
-
-
 
       <!-- 邮箱验证码 -->
       <el-form-item prop="emailcode" class="email-code">
@@ -28,143 +23,129 @@
           <el-button type="primary" @click="sendCode">发送</el-button>
         </div>
         <span class="svg-container">
-          <i class="el-icon-user">
-          </i>
+          <i class="el-icon-user"> </i>
         </span>
 
         <el-input
-          ref = 'emailcode'
-          v-model='form.emailcode'
-          placeholder = '邮箱验证码'
+          ref="emailcode"
+          v-model="form.emailcode"
+          placeholder="邮箱验证码"
           name="emailcode"
-          >
-          
+        >
         </el-input>
       </el-form-item>
 
       <el-form-item prop="nickname">
         <span class="svg-container">
-          <i class="el-icon-user">
-          </i>
+          <i class="el-icon-user"> </i>
         </span>
         <el-input
-          ref = 'nickname'
-          v-model='form.nickname'
-          placeholder = '昵称'
+          ref="nickname"
+          v-model="form.nickname"
+          placeholder="昵称"
           name="nickname"
-          >
-          
+        >
         </el-input>
       </el-form-item>
 
       <!-- 图片验证码 -->
       <el-form-item prop="emailcode" class="email-code">
         <div class="send-email-btn">
-          <img :src="code.captcha" @click="resetCptcha" alt="">
+          <img :src="code.captcha" @click="resetCptcha" alt="" />
         </div>
         <span class="svg-container">
-          <i class="el-icon-user">
-          </i>
+          <i class="el-icon-user"> </i>
         </span>
 
         <el-input
-          ref = 'captcha'
-          v-model='form.captcha'
-          placeholder = '邮箱验证码'
+          ref="captcha"
+          v-model="form.captcha"
+          placeholder="邮箱验证码"
           name="captcha"
-          >
-          
+        >
         </el-input>
       </el-form-item>
 
-
       <el-form-item prop="password">
         <span class="svg-container">
-          <i class="el-icon-lock">
-          </i>
+          <i class="el-icon-lock"> </i>
         </span>
         <el-input
-          ref = 'password'
+          ref="password"
           :key="passwordType"
-          v-model='form.password'
-          placeholder = '密码'
+          v-model="form.password"
+          placeholder="密码"
           name="password"
           :type="passwordType"
-          >
+        >
         </el-input>
         <span class="show-pwd" @click="showPwd">
-          <i v-if="passwordType=='password'" class="el-icon-lock"></i>
+          <i v-if="passwordType == 'password'" class="el-icon-lock"></i>
           <i v-else class="el-icon-key"></i>
         </span>
       </el-form-item>
 
       <el-form-item prop="repassword">
         <span class="svg-container">
-          <i class="el-icon-lock">
-          </i>
+          <i class="el-icon-lock"> </i>
         </span>
         <el-input
-          ref = 'repassword'
-          v-model='form.repassword'
-          placeholder = '再次输入密码'
+          ref="repassword"
+          v-model="form.repassword"
+          placeholder="再次输入密码"
           name="repassword"
           type="password"
-          >
-          
+        >
         </el-input>
       </el-form-item>
       <!-- el-button是组件，组件上监听原生事件用.native, prevent阻止表单提交重载页面-->
-      <el-button @click.native.prevent='handleRegister' type="primary" sytle="width:100%;margin-bottom:30px">
+      <el-button
+        @click.native.prevent="handleRegister"
+        type="primary"
+        sytle="width:100%;margin-bottom:30px"
+      >
         注册
       </el-button>
-     
     </el-form>
-
   </div>
 </template>
 
-
 <script>
-
 import md5 from 'md5'
 export default {
-  layout:'login',
-  data(){
+  layout: 'login',
+  data() {
     return {
-      form:{
-        email:'1263092750@qq.com',
-        nickname:'xx无敌最俊朗',
-        emailcode:'',
-        captcha:'',
-        password:'',
-        repassword:''
+      form: {
+        email: '1263092750@qq.com',
+        nickname: 'xx无敌最俊朗',
+        emailcode: '',
+        captcha: '',
+        password: '',
+        repassword: ''
       },
-      code:{
-        captcha:'/api/user/captcha'
+      code: {
+        captcha: '/api/user/captcha'
       },
-      registerRule:{
-        email:[
-          {required:true, message:'请输入邮箱'},
-          {type:'email', message:'请输入正确的邮箱'},
+      registerRule: {
+        email: [
+          { required: true, message: '请输入邮箱' },
+          { type: 'email', message: '请输入正确的邮箱' }
         ],
-        password:[
-          {required:true, message:'请输入密码'},
-          {max:12, message:'密码长度12以内'},
+        password: [
+          { required: true, message: '请输入密码' },
+          { max: 12, message: '密码长度12以内' }
         ],
-        emailcode:[
-          {required:true, message:'请输入邮箱验证码'},
-        ],
-        captcha:[
-          {required:true, message:'请输入验证码'},
-        ],
-        repassword:[
+        emailcode: [{ required: true, message: '请输入邮箱验证码' }],
+        captcha: [{ required: true, message: '请输入验证码' }],
+        repassword: [
           {
-            required:true,
-            trigger:'blur',
-            validator:(rule,value,callback)=>{
-              if(value!==this.form.password){
+            required: true,
+            trigger: 'blur',
+            validator: (rule, value, callback) => {
+              if (value !== this.form.password) {
                 callback(new Error('两次输入不一致'))
-              }else{
+              } else {
                 callback()
               }
             }
@@ -172,13 +153,13 @@ export default {
         ]
       },
       // 默认密文显示
-      passwordType:'password'
+      passwordType: 'password'
     }
   },
-  methods:{
-    handleRegister(){
-      this.$refs.form.validate( async valid=>{
-        if(valid){
+  methods: {
+    handleRegister() {
+      this.$refs.form.validate(async (valid) => {
+        if (valid) {
           console.log('loading状态切换')
           let obj = {
             email: this.form.email,
@@ -189,33 +170,36 @@ export default {
           }
           let ret = await this.$http.post('/user/register', obj)
           console.log(ret)
-          if(ret.code===0){
-// 注册成功信息提醒
-
-          // 跳转登录页
-          }else{
+          if (ret.code === 0) {
+            // 注册成功信息提醒
             this.$notify({
-               title:ret.data.message,
-                type:'warning'
+              title: '注册成功',
+              type: 'success'
             })
+            setTimeout(() => {
+              this.$router.push({ path: '/login' })
+            }, 1500)
+            // 跳转登录页
+          } else {
+            console.log('error submit!!')
+            return false
           }
-          
         }
       })
     },
-    showPwd(){
-      this.passwordType = this.passwordType==="password"?"text":"password"
+    showPwd() {
+      this.passwordType = this.passwordType === 'password' ? 'text' : 'password'
     },
-    resetCptcha(){
+    resetCptcha() {
       // 每次点图，由于链接改变，会重新生成图片
-      this.code.captcha = '/api/user/captcha?_t='+new Date().getTime()
+      this.code.captcha = '/api/user/captcha?_t=' + new Date().getTime()
     },
-    async sendCode(){
-      let ret = await this.$http.get('/user/sendcode?email='+this.form.email)
-      if(ret.code===0){
+    async sendCode() {
+      let ret = await this.$http.get('/user/sendcode?email=' + this.form.email)
+      if (ret.code === 0) {
         this.$notify({
-          title:'发送成功',
-          type:'success'
+          title: '发送成功',
+          type: 'success'
         })
       }
     }
@@ -223,22 +207,20 @@ export default {
 }
 </script>
 
-
 <style lang="scss">
-
-.email-code{
-  width:340px;
+.email-code {
+  width: 340px;
   position: relative;
-  .send-email-btn{
+  .send-email-btn {
     position: absolute;
-    right:-110px;
-    .el-button{
-      width:90px;
-      height:50px;
+    right: -110px;
+    .el-button {
+      width: 90px;
+      height: 50px;
     }
-    img{
-            width:90px;
-      height:50px;
+    img {
+      width: 90px;
+      height: 50px;
       cursor: pointer;
     }
   }
@@ -257,7 +239,6 @@ export default {
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
       height: 47px;
-
     }
   }
 
@@ -270,7 +251,6 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-
 .login-container {
   min-height: 100%;
   width: 100%;
@@ -306,12 +286,10 @@ export default {
   .title-container {
     position: relative;
     text-align: center;
-    margin-bottom:20px;
-    img{
-      width:200px;
-
+    margin-bottom: 20px;
+    img {
+      width: 200px;
     }
-
   }
 
   .show-pwd {
@@ -323,15 +301,14 @@ export default {
     user-select: none;
   }
 
-  .auth{
-    margin-top:10px;
+  .auth {
+    margin-top: 10px;
     text-align: center;
-    img{
-      width:45px;
-      height:45px;
+    img {
+      width: 45px;
+      height: 45px;
       margin: 0 30px;
     }
   }
-
 }
 </style>
