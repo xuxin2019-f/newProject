@@ -31,7 +31,7 @@ module.exports = (app) => {
   )
   router.get('/user/:id/following', controller.user.following)
   router.get('/user/:id/followers', controller.user.followers)
-  router.get('/user/:id/articles', controller.user.articles)
+  router.get('/user/:id/articles', controller.article.fineByAuthor)
 
   // 中间件
   router.get('/user/detail', jwt, controller.user.detail)
@@ -39,4 +39,5 @@ module.exports = (app) => {
   router.post('/article/create', jwt, controller.article.create)
   router.get('/article', controller.article.index)
   router.get('/article/:id', controller.article.detail)
+  router.delete('/article/delete/:id', controller.article.delete)
 }

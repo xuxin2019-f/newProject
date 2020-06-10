@@ -15,9 +15,13 @@
         </div>
       </el-tab-pane>
       <el-tab-pane :label="'文章'+articles.length" name="articles">
-        <el-card class="box-card" v-for="item in articles" :key="item">
-          <div class="text item">{{item }}</div>
-        </el-card>
+        <ArticleItem
+          v-for="article in articles"
+          :article="article"
+          one="one"
+          :key="article._id"
+          @parentMet="loadArticle"
+        ></ArticleItem>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -72,6 +76,7 @@ export default {
         this.articles = ret.data
         //console.log(ret)
       }
+      //let ret = await this.$http.get('/user/'+this.userid+'/articles')
     },
     handleClick() {}
   }

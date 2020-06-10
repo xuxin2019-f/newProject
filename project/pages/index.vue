@@ -18,7 +18,7 @@ export default {
     // console.log(Object.keys(store))
     // console.log(Object.keys(app))
     let ret = await app.$axios.get('/api/article')
-    console.log(ret.data.data)
+    console.log('文章总体内容', ret.data.data)
     return {
       articles: ret.data.data
     }
