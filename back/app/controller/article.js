@@ -55,25 +55,55 @@ class ArticleController extends BaseController {
       author: userid,
     }
     let ret = await ctx.model.Article.create(obj)
+
     if (ret._id) {
+      let me = await ctx.model.User.findById(ctx.state.userid)
+      // 实现文章和用户的关联
+      me.article.push(ret._id)
+      me.save()
+      console.log('me', me)
       this.success({
-        id: ret.id,
+        id: ret._id,
         title: ret.title,
       })
     } else {
       this.error('创建失败')
     }
   }
+
   async delete() {
     const { ctx } = this
-    const ret = await ctx.model.Article.deleteOne({
-      _id: ctx.params.id,
-    })
-    console.log('删除了吗？', ret)
-    if (ret.deletedCount) {
-      this.success('删除成功')
-    } else {
-      this.error('删除失败')
+    const ret = await ctx.model.Article.findById(ctx.params.id).populate(
+      'author'
+    )
+    console.log('！', typeof ctx.params.id)
+    if (ret._id) {
+      const me = await ctx.model.User.findById(ret.author._id)
+      //console.log('me?', me.article)
+      const article = me.article
+      for (let i = 0; i < article.length; i++) {
+        //console.log('????', typeof article[i]) 居然是object类型
+        if (article[i].toString() === ctx.params.id) {
+          me.article = article.splice(i, 1)
+          console.log('删除后?', me)
+
+          const del = await ctx.model.Article.deleteOne({ _id: ctx.params.id })
+          if (del.deletedCount) {
+            this.success('删除成功')
+          } else {
+            this.error('删除失败')
+          }
+        }
+      }
+      // console.log('me??', me)
+      // if (me.deletedCount) {
+      //   const del = await ctx.model.Article.deleteOne({ _id: ctx.params.id })
+      //   if (del.deletedCount) {
+      //     this.success('删除成功')
+      //   } else {
+      //     this.error('删除失败')
+      //   }
+      // }
     }
   }
 }

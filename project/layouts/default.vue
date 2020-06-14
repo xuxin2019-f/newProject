@@ -4,39 +4,34 @@
         {{userinfo}}
     </div>-->
     <el-header>
-      <el-menu class="el-menu-demo" mode="horizontal">
-        <el-menu-item index="0">
+      <el-menu class="el-menu-demo" mode="horizontal" default-active="1">
+        <!-- <el-menu-item index="0">
           <img class="logo" src="/logo.png" alt />
-        </el-menu-item>
+        </el-menu-item>-->
 
+        <!-- <el-menu-item index="0">
+    <img class="logo" src="/logo.png" alt="">
+        </el-menu-item>-->
         <el-menu-item index="1">
           <nuxt-link to="/">首页</nuxt-link>
         </el-menu-item>
 
-        <!-- 这里也是，通过计算属性拿到vuex中的数据来选择是否渲染dom -->
-        <el-menu-item
-          v-if="islogin"
-          index="3"
-          class="pull-right"
-          @click="logout"
-        >
+        <el-menu-item @click="logout" v-if="userinfo.id" index="3" class="pull-right">
           <span>退出</span>
         </el-menu-item>
-
-        <el-menu-item v-if="islogin" index="6" class="pull-right">
-          <UserDisplay :user="userinfo"></UserDisplay>
+        <el-menu-item class="pull-right" v-if="userinfo.id">
+          <UserDisplay :user="userinfo" index="6"></UserDisplay>
         </el-menu-item>
-        <el-menu-item v-if="islogin" index="5" class="pull-right">
+        <el-menu-item v-if="userinfo.id" index="5" class="pull-right">
           <nuxt-link to="/editor/new">
-            <el-button type="primary">写文章</el-button>
+            <el-button>写文章</el-button>
           </nuxt-link>
         </el-menu-item>
 
-        <el-menu-item v-if="!islogin" index="2" class="pull-right">
+        <el-menu-item v-if="!userinfo.id" index="2" class="pull-right">
           <nuxt-link to="/register">注册</nuxt-link>
         </el-menu-item>
-
-        <el-menu-item v-if="!islogin" index="3" class="pull-right">
+        <el-menu-item v-if="!userinfo.id" index="3" class="pull-right">
           <nuxt-link to="/login">登录</nuxt-link>
         </el-menu-item>
       </el-menu>
@@ -58,11 +53,8 @@ export default {
     console.log(this.$store.state.user)
   },
   computed: {
-    // userinfo() {
-    //   return this.$store.state.user
-    // },
-    islogin() {
-      return this.$store.state.user.id
+    userinfo() {
+      return this.$store.state.user
     }
   },
   methods: {
@@ -72,7 +64,7 @@ export default {
       if (token) {
         // let ret = await this.$axios.get('/api/demoinfo')
         this.$store.dispatch('user/detail')
-        this.userinfo = this.$store.state.user
+        //this.userinfo = this.$store.state.user
       }
     },
     logout() {

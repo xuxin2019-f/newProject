@@ -83,7 +83,12 @@ class UserController extends BaseController {
     const user = await this.checkEmail(ctx.state.email)
     this.success(user)
   }
-
+  async myself() {
+    const { ctx } = this
+    const user = await ctx.model.User.findOne({ email: ctx.params.email })
+    console.log('用户信息?', user)
+    this.success(user)
+  }
   async create() {
     const { ctx } = this
     let { email, password, emailcode, captcha, nickname } = ctx.request.body
@@ -105,6 +110,7 @@ class UserController extends BaseController {
       nickname,
       password: md5(password),
     })
+    console.log('新建用户', ret)
     if (ret._id) {
       this.success('注册成功')
     }
@@ -120,6 +126,13 @@ class UserController extends BaseController {
       code: 0,
       data: '测试数据',
     }
+  }
+  async message() {
+    const { ctx } = this
+    //console.log('有没有state', ctx.state.userid)
+    let ret = await ctx.model.User.findById(ctx.state.userid)
+    console.log('ret', ret)
+    this.success(ret)
   }
   async isFollow() {
     const { ctx } = this

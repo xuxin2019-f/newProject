@@ -33,20 +33,19 @@
     <el-button v-if="one" @click.native.prevent="handleDelete(article._id)">删除</el-button>
   </div>
 </template>
-
 <script>
 export default {
   props: ['article', 'one', 'parentMet'],
   methods: {
-    handleDelete(id) {
+    async handleDelete(id) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(() => {
-          const ret = this.$http.delete('/article/delete/' + id)
-          console.log(ret.data)
+        .then(async () => {
+          const ret = await this.$http.delete('/article/delete/' + id)
+          //console.log(ret.data)
           this.$message({
             type: 'success',
             message: '删除成功！'

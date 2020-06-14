@@ -3,16 +3,27 @@
 
 
 <template>
-  <div class="kkb-container">
-    <ArticleItem v-for="article in articles" :article="article" :key="article._id"></ArticleItem>
+  <div class="main-container">
+    <div class="kkb-container">
+      <div class="article">
+        <ArticleItem v-for="article in articles" :article="article" :key="article._id"></ArticleItem>
+      </div>
+    </div>
+    <About :userInfo="userInfo" class="myself" v-if="userInfo._id"></About>
   </div>
 </template>
 
 <script>
 import Logo from '~/components/Logo.vue'
 import ArticleItem from '~/components/ArticleItem.vue'
+import About from '~/components/About.vue'
 export default {
-  // async
+  data() {
+    return {
+      userInfo: {},
+      state: false
+    }
+  },
 
   async asyncData({ app, params, store }) {
     // console.log(Object.keys(store))
@@ -22,41 +33,39 @@ export default {
     return {
       articles: ret.data.data
     }
-    // return {user:ret.data}
+  },
+  mounted() {
+    this.getUserInfo()
+  },
+  methods: {
+    async getUserInfo() {
+      let ret = await this.$http.get('/user/message')
+
+      if (ret.code === 0) {
+        this.userInfo = ret.data
+        console.log('userInfo', this.userInfo)
+      }
+    }
   },
   components: {
     Logo,
-    ArticleItem
+    ArticleItem,
+    About
   }
 }
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  /* min-height: 100vh; */
-  /* text-align: center; */
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+<style lang="scss" scoped >
+.main-container {
+  display: flex;
+  .kkb-container {
+    margin-left: 150px;
+    margin-right: 100px;
+    width: 50%;
+    .myself {
+      width: 30%;
+      padding: 30px;
+    }
+  }
 }
 </style>

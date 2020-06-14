@@ -14,6 +14,8 @@ module.exports = (app) => {
 
   router.get('/user/sendcode', controller.user.email)
   router.get('/user/captcha', controller.user.captcha)
+  // 通过邮箱查询个人信息
+  router.get('/user/:email/email', controller.user.myself)
   router.post('/user/register', controller.user.create)
   router.post('/user/login', controller.user.login)
   // 修改数据用put，删除用delete
@@ -35,6 +37,7 @@ module.exports = (app) => {
 
   // 中间件
   router.get('/user/detail', jwt, controller.user.detail)
+  router.get('/user/message', jwt, controller.user.message)
 
   router.post('/article/create', jwt, controller.article.create)
   router.get('/article', controller.article.index)

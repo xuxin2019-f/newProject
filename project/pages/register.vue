@@ -1,20 +1,14 @@
 <template>
   <div class="login-container">
     <el-form ref="form" :model="form" :rule="registerRule" class="login-form">
-      <div class="title-container">
-        <img src="/logo.png" alt="" />
-      </div>
+      <!-- <div class="title-container">
+        <img src="/logo.png" alt />
+      </div>-->
       <el-form-item prop="email">
         <span class="svg-container">
-          <i class="el-icon-mobile"> </i>
+          <i class="el-icon-mobile"></i>
         </span>
-        <el-input
-          ref="email"
-          v-model="form.email"
-          placeholder="邮箱"
-          name="email"
-        >
-        </el-input>
+        <el-input ref="email" v-model="form.email" placeholder="邮箱" name="email"></el-input>
       </el-form-item>
 
       <!-- 邮箱验证码 -->
@@ -23,52 +17,34 @@
           <el-button type="primary" @click="sendCode">发送</el-button>
         </div>
         <span class="svg-container">
-          <i class="el-icon-user"> </i>
+          <i class="el-icon-user"></i>
         </span>
 
-        <el-input
-          ref="emailcode"
-          v-model="form.emailcode"
-          placeholder="邮箱验证码"
-          name="emailcode"
-        >
-        </el-input>
+        <el-input ref="emailcode" v-model="form.emailcode" placeholder="邮箱验证码" name="emailcode"></el-input>
       </el-form-item>
 
       <el-form-item prop="nickname">
         <span class="svg-container">
-          <i class="el-icon-user"> </i>
+          <i class="el-icon-user"></i>
         </span>
-        <el-input
-          ref="nickname"
-          v-model="form.nickname"
-          placeholder="昵称"
-          name="nickname"
-        >
-        </el-input>
+        <el-input ref="nickname" v-model="form.nickname" placeholder="昵称" name="nickname"></el-input>
       </el-form-item>
 
       <!-- 图片验证码 -->
       <el-form-item prop="emailcode" class="email-code">
         <div class="send-email-btn">
-          <img :src="code.captcha" @click="resetCptcha" alt="" />
+          <img :src="code.captcha" @click="resetCptcha" alt />
         </div>
         <span class="svg-container">
-          <i class="el-icon-user"> </i>
+          <i class="el-icon-user"></i>
         </span>
 
-        <el-input
-          ref="captcha"
-          v-model="form.captcha"
-          placeholder="邮箱验证码"
-          name="captcha"
-        >
-        </el-input>
+        <el-input ref="captcha" v-model="form.captcha" placeholder="邮箱验证码" name="captcha"></el-input>
       </el-form-item>
 
       <el-form-item prop="password">
         <span class="svg-container">
-          <i class="el-icon-lock"> </i>
+          <i class="el-icon-lock"></i>
         </span>
         <el-input
           ref="password"
@@ -77,8 +53,7 @@
           placeholder="密码"
           name="password"
           :type="passwordType"
-        >
-        </el-input>
+        ></el-input>
         <span class="show-pwd" @click="showPwd">
           <i v-if="passwordType == 'password'" class="el-icon-lock"></i>
           <i v-else class="el-icon-key"></i>
@@ -87,7 +62,7 @@
 
       <el-form-item prop="repassword">
         <span class="svg-container">
-          <i class="el-icon-lock"> </i>
+          <i class="el-icon-lock"></i>
         </span>
         <el-input
           ref="repassword"
@@ -95,17 +70,14 @@
           placeholder="再次输入密码"
           name="repassword"
           type="password"
-        >
-        </el-input>
+        ></el-input>
       </el-form-item>
       <!-- el-button是组件，组件上监听原生事件用.native, prevent阻止表单提交重载页面-->
       <el-button
         @click.native.prevent="handleRegister"
         type="primary"
         sytle="width:100%;margin-bottom:30px"
-      >
-        注册
-      </el-button>
+      >注册</el-button>
     </el-form>
   </div>
 </template>
@@ -179,6 +151,7 @@ export default {
             setTimeout(() => {
               this.$router.push({ path: '/login' })
             }, 1500)
+
             // 跳转登录页
           } else {
             console.log('error submit!!')
