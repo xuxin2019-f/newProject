@@ -12,7 +12,7 @@ const mutations = {
   SET_TOKEN(state, token) {
     state.token = token
   },
-  SET_USER(state, user) {
+  SET_USER(state, user = {}) {
     console.log('xx', user)
     state.id = user._id
     state.email = user.email
@@ -32,9 +32,11 @@ const actions = {
   login: async ({ state, commit }, data) => {
     let ret = await http.post('/user/login', data)
     // 登录返回token
-    commit('SET_TOKEN', ret.data.token)
-    console.log('actin data', data)
-    return ret
+    if (ret.code === 0) {
+      commit('SET_TOKEN', ret.data.token)
+      console.log('store里有token吗', ret.data.token)
+      return ret
+    }
   },
   // 每次渲染页面都重新给vuex赋值
   detail: async ({ state, commit }, data) => {

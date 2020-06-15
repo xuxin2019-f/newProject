@@ -47,10 +47,10 @@
 import UserDisplay from '~/components/UserDisplay.vue'
 export default {
   components: { UserDisplay },
-  async mounted() {
+  mounted() {
     this.getUserInfo()
     // console.log('信息' + this.userinfo)
-    console.log(this.$store.state.user)
+    console.log('store有无', this.$store.state.user)
   },
   computed: {
     userinfo() {
@@ -63,6 +63,7 @@ export default {
       let token = localStorage.getItem('KKB_USER_TOKEN')
       if (token) {
         // let ret = await this.$axios.get('/api/demoinfo')
+        // 触发刷新
         this.$store.dispatch('user/detail')
         //this.userinfo = this.$store.state.user
       }

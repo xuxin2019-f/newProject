@@ -6,6 +6,10 @@
     </div>
     <div class="PersonalDetail">
       <div class="item">
+        <div class="title">文章</div>
+        <div class="content">{{userInfo.article.length}}</div>
+      </div>
+      <div class="item">
         <div class="title">关注</div>
         <div class="content">{{userInfo.following.length}}</div>
       </div>

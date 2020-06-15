@@ -35,7 +35,8 @@ export default ({ store, redirect }) => {
       // 也可以在login的逻辑里写
       if (data.code === 0) {
         if (config.url === '/api/user/login') {
-          localStorage.setItem('KKB_USER_TOKEN', data.data.token)
+          const token = data.data.token
+          localStorage.setItem('KKB_USER_TOKEN', token)
         }
       } else if (data.code === -666) {
         // 规定code是-666的 意味着token过期
