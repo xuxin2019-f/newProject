@@ -22,13 +22,17 @@
         {{article.dislike}}
       </el-button>
     </div>
+    <!-- 评论区
+    -->
+    <Comment :user="article.author" />
   </div>
 </template>
 
 <script>
 import UserDisplay from '~/components/UserDisplay.vue'
+import Comment from '~/components/Comment.vue'
 export default {
-  components: { UserDisplay },
+  components: { UserDisplay, Comment },
   data() {
     return {
       // 默认没关注
@@ -40,7 +44,8 @@ export default {
         views: 0,
         like: 0,
         dislike: 0,
-        author: {}
+        author: {},
+        comments: []
       }
     }
   },
@@ -56,6 +61,9 @@ export default {
     async getArticle() {
       let ret = await this.$http.get('/article/' + this.id)
       this.article = ret.data
+    },
+    async getArticleCom() {
+      // 获取评论内容
     },
     async likeAction() {
       let type = this.likeStatus ? 'delete' : 'put'

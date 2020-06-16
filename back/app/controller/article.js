@@ -71,7 +71,23 @@ class ArticleController extends BaseController {
       this.error('创建失败')
     }
   }
-
+  async comment() {
+    const { ctx } = this
+    const { author, comment } = ctx.request.body
+    const user = await ctx.model.User.findById(ctx.state.userid)
+    if (user.avatar) {
+      const ret = await ctx.model.Article.update(
+        { author: ctx.state.userid },
+        { $addToSet: { comments: { avatar: user.avatar, con: comment } } }
+      )
+      //console.log('文章', ret)
+      if (ret.ok) {
+        this.success('评论成功')
+      } else {
+        this.error('评论失败')
+      }
+    }
+  }
   async delete() {
     const { ctx } = this
     const ret = await ctx.model.Article.findById(ctx.params.id).populate(

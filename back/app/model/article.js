@@ -20,6 +20,15 @@ module.exports = (app) => {
       },
       like: { type: Number, required: false, default: 0 },
       dislike: { type: Number, required: false, default: 0 },
+      // 对于该文章的评论
+      comments: {
+        type: [
+          {
+            avatar: { type: String, default: '/user.png' },
+            con: { type: String },
+          },
+        ],
+      },
       // 关注的人，
       // 点赞文章
       // 点赞的答案

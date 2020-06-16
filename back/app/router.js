@@ -40,6 +40,7 @@ module.exports = (app) => {
   router.get('/user/message', jwt, controller.user.message)
 
   router.post('/article/create', jwt, controller.article.create)
+  router.post('/article/comment', jwt, controller.article.comment)
   router.get('/article', controller.article.index)
   router.get('/article/:id', controller.article.detail)
   router.delete('/article/delete/:id', controller.article.delete)
