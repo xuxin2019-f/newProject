@@ -38,6 +38,7 @@ module.exports = (app) => {
   // 中间件
   router.get('/user/detail', jwt, controller.user.detail)
   router.get('/user/message', jwt, controller.user.message)
+  router.get('/user/message/:id', controller.user.find)
 
   router.post('/article/create', jwt, controller.article.create)
   router.post('/article/comment', jwt, controller.article.comment)

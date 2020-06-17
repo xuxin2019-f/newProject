@@ -134,6 +134,12 @@ class UserController extends BaseController {
     console.log('ret', ret)
     this.success(ret)
   }
+  async find() {
+    // 根据详情页的id查找用户
+    const { ctx } = this
+    let ret = await ctx.model.User.findById(ctx.params.id)
+    this.success(ret)
+  }
   async isFollow() {
     const { ctx } = this
     // 从token中解析出id

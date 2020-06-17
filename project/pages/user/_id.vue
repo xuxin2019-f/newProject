@@ -1,29 +1,34 @@
 <template>
-  <div class="kkb-container">
-    <div></div>
+  <div>
+    <div class="header">
+      <img class="avatar" :src="user.avatar" alt />
+      <h3>{{user.nickname}}</h3>
+      <el-button class="chat" @click.native.prevent="onChat">私聊</el-button>
+    </div>
+    <div class="kkb-container">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane :label="'关注'+following.length" name="following">
+          <div v-for="user in following" :key="user._id">
+            <UserDisplay :user="user" />
+          </div>
+        </el-tab-pane>
 
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane :label="'关注'+following.length" name="following">
-        <div v-for="user in following" :key="user._id">
-          <UserDisplay :user="user" />
-        </div>
-      </el-tab-pane>
-
-      <el-tab-pane :label="'粉丝'+followers.length" name="followers">
-        <div v-for="user in followers" :key="user._id">
-          <UserDisplay :user="user" />
-        </div>
-      </el-tab-pane>
-      <el-tab-pane :label="'文章'+articles.length" name="articles">
-        <ArticleItem
-          v-for="article in articles"
-          :article="article"
-          one="one"
-          :key="article._id"
-          @parentMet="loadArticle"
-        ></ArticleItem>
-      </el-tab-pane>
-    </el-tabs>
+        <el-tab-pane :label="'粉丝'+followers.length" name="followers">
+          <div v-for="user in followers" :key="user._id">
+            <UserDisplay :user="user" />
+          </div>
+        </el-tab-pane>
+        <el-tab-pane :label="'文章'+articles.length" name="articles">
+          <ArticleItem
+            v-for="article in articles"
+            :article="article"
+            one="one"
+            :key="article._id"
+            @parentMet="loadArticle"
+          ></ArticleItem>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 
@@ -41,7 +46,8 @@ export default {
       following: [],
       followers: [],
       articles: [],
-      activeName: 'following'
+      activeName: 'following',
+      user: {}
     }
   },
   mounted() {
@@ -49,7 +55,7 @@ export default {
     this.userid = userid
     if (userid) {
       this.loadFollowing()
-
+      this.loadUser()
       this.loadFollowers()
       this.loadArticle()
     }
@@ -78,10 +84,34 @@ export default {
       }
       //let ret = await this.$http.get('/user/'+this.userid+'/articles')
     },
+    async loadUser() {
+      let ret = await this.$http.get('/user/message/' + this.userid)
+      if (ret.code === 0) {
+        this.user = ret.data
+      }
+    },
+    onChat() {
+      this.$router.push({ path: '/chat/' + this.userid })
+    },
     handleClick() {}
   }
 }
 </script>
 
-<style>
+<style lang='scss' scoped>
+.header {
+  width: 1200px;
+  margin: 0 auto;
+  height: 300px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  text-align: center;
+  .avatar {
+    width: 150px;
+    height: 150px;
+  }
+  .chat {
+    margin-top: 20px;
+  }
+}
 </style>
