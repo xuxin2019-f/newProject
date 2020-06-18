@@ -27,9 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '@/plugins/element-ui',
-    '@/plugins/axios'],
+  plugins: ['@/plugins/element-ui', '@/plugins/axios'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -60,13 +58,13 @@ export default {
      */
     extend(config, ctx) {}
   },
-   proxy:{
-    '/api/' :{
+  proxy: {
+    '/api/': {
       // 转发
-      target:'http://localhost:7003',
-      secure:false,
-      pathRewrite:{
-        '^/api':""
+      target: 'http://localhost:7003',
+      secure: false,
+      pathRewrite: {
+        '^/api': ''
       }
     }
   }

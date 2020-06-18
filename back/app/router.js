@@ -4,7 +4,7 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = (app) => {
-  const { router, controller } = app
+  const { router, controller, io } = app
 
   let jwt = app.middleware.jwt({ app })
   router.get('/', controller.home.index)
@@ -45,4 +45,7 @@ module.exports = (app) => {
   router.get('/article', controller.article.index)
   router.get('/article/:id', controller.article.detail)
   router.delete('/article/delete/:id', controller.article.delete)
+
+  // socket.io
+  io.of('/').route('server', io.controller.default.server)
 }

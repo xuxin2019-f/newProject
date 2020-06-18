@@ -18,9 +18,13 @@
     "loadash": "^1.0.0",
     "marked": "^0.8.2",
     "md5": "^2.2.1",
+    "net": "^1.0.2",
     "node-sass": "^4.13.1",
     "nuxt": "^2.0.0",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "socket.io-client": "^2.3.0",
+    "vue-socket.io": "^3.0.9",
+    "vue-socket.io-extended": "^4.0.3"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
