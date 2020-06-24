@@ -14,7 +14,7 @@
       <!-- 邮箱验证码 -->
       <el-form-item prop="emailcode" class="email-code">
         <div class="send-email-btn">
-          <el-button type="primary" @click="sendCode">发送</el-button>
+          <el-button type="primary" @click.native.prevent="sendCode">发送</el-button>
         </div>
         <span class="svg-container">
           <i class="el-icon-user"></i>
@@ -168,8 +168,9 @@ export default {
       this.code.captcha = '/api/user/captcha?_t=' + new Date().getTime()
     },
     async sendCode() {
-      let ret = await this.$http.get('/user/sendcode?email=' + this.form.email)
-      if (ret.code === 0) {
+      let ret = await this.$http.get('user/sendcode?email=' + this.form.email)
+      console.log('rettt', ret)
+      if (ret.code == 0) {
         this.$notify({
           title: '发送成功',
           type: 'success'

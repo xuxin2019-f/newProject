@@ -8,9 +8,11 @@ class DefaultController extends Controller {
     console.log(message)
     const socket = ctx.socket
     const client = socket.id
+    console.log('id', socket.id)
     // 通过id给指定socket连接发送消息，不然会以n次倍发送
     await nsp.sockets[client].emit('inline', {
-      content: message,
+      content: message.content,
+      nickname: message.nickname,
       id: client,
     })
   }

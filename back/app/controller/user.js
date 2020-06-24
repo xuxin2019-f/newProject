@@ -12,6 +12,7 @@ class UserController extends BaseController {
     // 在controller里写业务逻辑，调用service里写的通用逻辑（发送邮箱）
     const { ctx } = this
     const email = ctx.query.email
+
     // 随机生成四位随机数作为验证码
     const code = Math.random().toString().slice(2, 6)
     console.log('邮件' + email + '验证码是' + code)

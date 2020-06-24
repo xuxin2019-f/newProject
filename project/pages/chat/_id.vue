@@ -3,8 +3,10 @@
     <h3>{{ '与' + user.nickname + '的私聊' }}</h3>
     <el-divider></el-divider>
     <div class="chat-content">
+      <!-- 聊天内容 -->
       <div class="chat-item" v-for="item in contentList" :key="item.id">
-        {{ item.content }}
+        <div class="right" v-show="nickname === item.nickname">{{item.content}}</div>
+        <div class="left" v-show="nickname !== item.nickname">{{item.content}}</div>
       </div>
     </div>
     <div class="chat-send">
@@ -15,9 +17,7 @@
         :autosize="{ minRows: 6, maxRows: 7 }"
       ></el-input>
 
-      <el-button type="danger" plain @click.native.prevent="handleSend"
-        >发送</el-button
-      >
+      <el-button type="danger" plain @click.native.prevent="handleSend">发送</el-button>
     </div>
   </div>
 </template>
@@ -38,6 +38,12 @@ export default {
     this.userid = userid
     if (userid) {
       this.getUser()
+    }
+    console.log(this.nickname)
+  },
+  computed: {
+    nickname() {
+      return this.$store.state.user.nickname
     }
   },
   methods: {
@@ -61,11 +67,14 @@ export default {
       socket.on('res', (msg) => {
         console.log('res from server: %s!', msg)
       })
-
-      socket.emit('server', this.content)
+      const obj = {
+        content: this.content,
+        nickname: this.nickname
+      }
+      socket.emit('server', obj)
       this.content = ''
       socket.on('inline', (msg) => {
-        console.log(msg)
+        console.log('msg', msg)
         this.contentList.push(msg)
         console.log(this.contentList)
       })
@@ -89,8 +98,23 @@ export default {
     margin-top: 30px;
   }
   .chat-content {
+    width: 100%;
     height: 400px;
     overflow-y: auto;
+    // display: flex;
+    // flex-direction: column;
+    // align-content: flex-end;
+    // position: relative;
+    .chat-item {
+      width: 50px;
+      // align-self: flex-end;
+    }
+    .right {
+      margin-left: 750px;
+    }
+    .left {
+      margin-left: 50px;
+    }
   }
   .chat-send {
     .el-button {

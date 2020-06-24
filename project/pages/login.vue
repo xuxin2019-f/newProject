@@ -60,6 +60,7 @@ export default {
             password: md5(this.form.password)
           }
           let ret = await this.$store.dispatch('user/login', obj)
+          console.log(ret)
           if (ret.code === 0) {
             this.$notify({
               title: '登录成功',
