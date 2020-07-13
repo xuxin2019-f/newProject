@@ -21,12 +21,13 @@ class UserController extends BaseController {
     const html = `
          <h1>许昕的小网页注册验证码</h1>
          <div>
-           <a href="https://kaikeba.com/">${code}</a>
+           <a href="">${code}</a>
          </div>
         `
     // 调用service层
     const hasSend = await this.service.tools.sendEmail(email, title, html)
     // 将验证码code存放在session里，这样点击注册后就可以对比输入框内输入的验证码和发送邮件的验证码是否相同
+    console.log('hasSend?', hasSend)
     if (hasSend) {
       ctx.session.emailcode = code
       this.message('发送成功')
@@ -54,8 +55,9 @@ class UserController extends BaseController {
     // 数据库查询
     let user = await ctx.model.User.findOne({
       email,
-      password: md5(password),
+      // password: md5(password),
     })
+    console.log('user', user)
     if (user) {
       // 如果查到数据库里的数据了，则生成token
       const { nickname } = user

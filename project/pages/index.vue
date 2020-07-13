@@ -9,7 +9,7 @@
         <ArticleItem v-for="article in articles" :article="article" :key="article._id"></ArticleItem>
       </div>
     </div>
-    <About :userInfo="userInfo" class="myself" v-if="userInfo._id"></About>
+    <About :userInfo="userInfo" class="myself" v-if="hasuser.id&&userInfo._id"></About>
   </div>
 </template>
 
@@ -37,13 +37,21 @@ export default {
   mounted() {
     this.getUserInfo()
   },
+  computed: {
+    hasuser() {
+      return this.$store.state.user
+    }
+  },
   methods: {
     async getUserInfo() {
-      let ret = await this.$http.get('/user/message')
+      const token = localStorage.getItem('KKB_USER_TOKEN')
+      if (token) {
+        let ret = await this.$http.get('/user/message')
 
-      if (ret.code === 0) {
-        this.userInfo = ret.data
-        console.log('userInfo', this.userInfo)
+        if (ret.code === 0) {
+          this.userInfo = ret.data
+          console.log('userInfo', this.userInfo)
+        }
       }
     }
   },

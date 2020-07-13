@@ -48,6 +48,10 @@ export default {
       }
     }
   },
+  inject: ['reload'],
+  mounted() {
+    console.log(this.$parent.reload, this)
+  },
   methods: {
     handleLogin() {
       // 走vuex 走axios拦截器
@@ -60,14 +64,16 @@ export default {
             password: md5(this.form.password)
           }
           let ret = await this.$store.dispatch('user/login', obj)
-          console.log(ret)
+          console.log('ret', ret)
           if (ret.code === 0) {
             this.$notify({
               title: '登录成功',
               type: 'success'
             })
+
             // 生成token
             localStorage.setItem('KKB_USER_TOKEN', ret.data.token)
+            this.$store.dispatch('user/detail')
             setTimeout(() => {
               this.$router.push({ path: '/' })
             }, 1500)

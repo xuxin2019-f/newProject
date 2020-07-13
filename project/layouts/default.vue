@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container v-if="isRouterAlive">
     <!-- <div>
         {{userinfo}}
     </div>-->
@@ -16,22 +16,22 @@
           <nuxt-link to="/">首页</nuxt-link>
         </el-menu-item>
 
-        <el-menu-item @click="logout" v-if="userinfo.id" index="3" class="pull-right">
+        <el-menu-item @click="logout" v-if="userinfo.token" index="3" class="pull-right">
           <span>退出</span>
         </el-menu-item>
-        <el-menu-item class="pull-right" v-if="userinfo.id">
+        <el-menu-item class="pull-right" v-if="userinfo.token">
           <UserDisplay :user="userinfo" index="6"></UserDisplay>
         </el-menu-item>
-        <el-menu-item v-if="userinfo.id" index="5" class="pull-right">
+        <el-menu-item v-if="userinfo.token" index="5" class="pull-right">
           <nuxt-link to="/editor/new">
             <el-button>写文章</el-button>
           </nuxt-link>
         </el-menu-item>
 
-        <el-menu-item v-if="!userinfo.id" index="2" class="pull-right">
+        <el-menu-item v-if="!userinfo.token" index="2" class="pull-right">
           <nuxt-link to="/register">注册</nuxt-link>
         </el-menu-item>
-        <el-menu-item v-if="!userinfo.id" index="3" class="pull-right">
+        <el-menu-item v-if="!userinfo.token" index="3" class="pull-right">
           <nuxt-link to="/login">登录</nuxt-link>
         </el-menu-item>
       </el-menu>
@@ -46,12 +46,17 @@
 <script>
 import UserDisplay from '~/components/UserDisplay.vue'
 export default {
-  components: { UserDisplay },
-  mounted() {
-    this.getUserInfo()
-    // console.log('信息' + this.userinfo)
-    console.log('store有无', this.$store.state.user)
+  data() {
+    return {
+      isRouterAlive: true,
+      key: this.$route.path + Math.random()
+    }
   },
+  components: { UserDisplay },
+  provide() {
+    return { reload: this.reload }
+  },
+  mounted() {},
   computed: {
     userinfo() {
       return this.$store.state.user
@@ -72,6 +77,13 @@ export default {
       localStorage.removeItem('KKB_USER_TOKEN')
       this.$store.commit('user/LOGOUT')
       this.$router.push({ path: '/' })
+    },
+    reload() {
+      // this.isRouterAlive = false //先关闭，
+      // this.$nextTick(function() {
+      //   this.isRouterAlive = true //再打开
+      // })
+      location.reload()
     }
   }
 }

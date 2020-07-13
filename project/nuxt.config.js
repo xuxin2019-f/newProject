@@ -61,7 +61,7 @@ export default {
   proxy: {
     '/api/': {
       // 转发
-      target: 'http://localhost:7003',
+      target: 'http://localhost:7002',
       secure: false,
       pathRewrite: {
         '^/api': ''

@@ -1,29 +1,29 @@
-// 中间件
+// async function gzip(ctx, next) {
+//   await next();
+
+// }
 
 module.exports = ({ app }) => {
-  // console.log('middware')
   return async function verify(ctx, next) {
+    console.log('jwt中间件')
+
+    console.log(ctx.request)
     const token = ctx.request.header.authorization.replace('Bearer ', '')
     try {
-      // 获取token
       let ret = await app.jwt.verify(token, app.config.jwt.secret)
-      console.log('中间件获取token信息', ret)
-      // 解析
       ctx.state.email = ret.email
       ctx.state.userid = ret.id
       await next()
     } catch (err) {
-      // 过期了
-      if (err.name === 'TokenExpiredError') {
+      console.log([err])
+      if (err.name == 'TokenExpiredError') {
         ctx.state.email = ''
-        ctx.state.userid = ''
-
         return (ctx.body = {
           code: -666,
-          message: 'token过期了，请登录',
+          message: '登录过期',
         })
       }
-      console.log(err)
+      console.log('错误', 'token过期')
     }
   }
 }

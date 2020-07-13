@@ -11,7 +11,7 @@ let transporter = nodemailer.createTransport({
   auth: {
     user: userEmail,
     // 这是qq邮箱里设置/账户下的授权码
-    pass: 'jkdfvpsndngricfi',
+    pass: 'pduzuvtzhzuahaig',
   },
 })
 
@@ -37,7 +37,7 @@ class ToolsService extends Service {
       await transporter.sendMail(mailOptions)
       return true
     } catch (err) {
-      console.log(err)
+      console.log('err', err)
       return false
     }
   }

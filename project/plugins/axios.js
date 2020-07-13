@@ -16,6 +16,7 @@ export default ({ store, redirect }) => {
     (config) => {
       // 请求加token
       const token = window.localStorage.getItem('KKB_USER_TOKEN')
+      console.log('token', token)
       // 这里还可以设置url白名单
       if (token) {
         config.headers.common['Authorization'] = 'Bearer ' + token

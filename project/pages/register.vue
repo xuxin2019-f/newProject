@@ -169,7 +169,7 @@ export default {
     },
     async sendCode() {
       let ret = await this.$http.get('user/sendcode?email=' + this.form.email)
-      console.log('rettt', ret)
+      // console.log(ret)
       if (ret.code == 0) {
         this.$notify({
           title: '发送成功',
